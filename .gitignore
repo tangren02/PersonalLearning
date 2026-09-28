@@ -1,0 +1,24 @@
+# OS / local workspace state
+.DS_Store
+Thumbs.db
+Desktop.ini
+.obsidian/workspace*.json
+.obsidian/cache/
+.obsidian/.cache/
+.trash/
+
+# Git plugin configuration and authentication are device-local
+.obsidian/plugins/obsidian-git/data.json
+credentials
+credentials.*
+token
+token.*
+*.token
+.env
+.env.*
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# Track release bundles and Spaced Repetition data.json intentionally.
