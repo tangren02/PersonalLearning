@@ -1,14 +1,26 @@
-# OS / local workspace state
+# OS metadata and Android media-indexing artifacts
 .DS_Store
+._*
 Thumbs.db
 Desktop.ini
-.obsidian/workspace*.json
-.obsidian/cache/
-.obsidian/.cache/
-.trash/
+.nomedia
+.thumbnails/
+
+# Device-local Obsidian workspace state, caches, and trash
+/.obsidian/workspace*.json
+/.obsidian/workspace
+/.obsidian/cache/
+/.obsidian/.cache/
+/.trash/
+
+# Editor swap and backup files; keep .bak and .tmp recovery files visible
+*.swp
+*.swo
+*~
 
 # Git plugin configuration and authentication are device-local
-.obsidian/plugins/obsidian-git/data.json
+/.obsidian/plugins/obsidian-git/data.json
+/.obsidian/plugins/obsidian-git/obsidian_askpass.sh
 credentials
 credentials.*
 token
@@ -21,4 +33,6 @@ token.*
 id_rsa
 id_ed25519
 
-# Track release bundles and Spaced Repetition data.json intentionally.
+# Keep notes (including review comments), attachments, core settings, plugin
+# release bundles, and Spaced Repetition data.json tracked intentionally.
+# Do not ignore conflict copies: they need review and recovery.
