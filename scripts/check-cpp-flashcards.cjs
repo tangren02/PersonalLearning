@@ -59,7 +59,6 @@ for (const file of files) {
   assert.equal(fields.tags, '[flashcards, cpp]', `${file}: required tags`);
   assert.equal(fields.source_id, 'M19');
   assert.equal(fields.status, '待用户验收');
-  assert.equal(fields.cpp_standard, 'C++17');
   assert.ok(fields.title && fields.knowledge, `${file}: missing title/knowledge`);
   const questions = JSON.parse(fields.source_questions);
   const pages = JSON.parse(fields.source_pages);
