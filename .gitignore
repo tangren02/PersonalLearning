@@ -33,6 +33,10 @@ token.*
 id_rsa
 id_ed25519
 
-# Keep notes (including review comments), attachments, core settings, plugin
-# release bundles, and Spaced Repetition data.json tracked intentionally.
+# Spaced Repetition settings and daily bury state are device-local.
+# Review schedules remain synced in note Markdown (NOTES storage mode).
+/.obsidian/plugins/obsidian-spaced-repetition/data.json
+
+# Keep notes (including review comments), attachments, core settings, and
+# plugin release bundles tracked intentionally.
 # Do not ignore conflict copies: they need review and recovery.
