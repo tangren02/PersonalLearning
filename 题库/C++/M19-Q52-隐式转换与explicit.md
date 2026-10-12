@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [52]
 source_pages: [43]
 knowledge: 面经19-15-拷贝转换与临时对象
-status: 待用户验收
+status: 已验收
 ---
 
 什么是隐式转换？如何限制构造函数产生的隐式转换？

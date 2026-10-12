@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [59]
 source_pages: [47,48]
 knowledge: 面经19-15-拷贝转换与临时对象
-status: 待用户验收
+status: 已验收
 ---
 
 C++ 的 RVO 与 NRVO 分别适用于什么返回形式？返回值优化希望避免哪些对象操作？

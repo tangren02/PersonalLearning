@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [60]
 source_pages: [48,49]
 knowledge: 面经19-08-宏常量与static
-status: 待用户验收
+status: 已验收
 ---
 
 为什么局部 static 变量的初始化是线程安全的？说明初始化时机、固定存储、单次实例化、多线程等待机制和常见实现方式，并列出不具备内置线程安全保证的静态变量类别。

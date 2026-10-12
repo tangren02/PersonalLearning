@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [36]
 source_pages: [30,31]
 knowledge: 面经19-11-虚函数表与纯虚函数
-status: 待用户验收
+status: 已验收
 ---
 
 虚函数表有哪些共享和存储特征，通常位于哪个内存区域？vptr 在什么时候初始化，位于对象的哪里，其存储区域由什么决定？

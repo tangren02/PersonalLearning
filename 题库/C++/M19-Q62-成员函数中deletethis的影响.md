@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [62]
 source_pages: [49]
 knowledge: 面经19-13-指针风险与内存布局
-status: 待用户验收
+status: 已验收
 ---
 
 成员函数中调用 delete this 后，对象内存与成员函数代码各发生什么？结合 this 的作用，说明后续调用是否涉及 this 会产生什么影响。

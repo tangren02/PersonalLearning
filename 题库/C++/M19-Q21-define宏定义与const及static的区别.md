@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [21]
 source_pages: [19,20]
 knowledge: 面经19-08-宏常量与static
-status: 待用户验收
+status: 已验收
 ---
 
 define 宏定义、const 与 static 在类型检查、作用范围、存储方式、调试支持和用途上有什么区别？

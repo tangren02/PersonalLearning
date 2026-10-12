@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [27]
 source_pages: [25,26]
 knowledge: 面经19-09-动态内存与RAII
-status: 待用户验收
+status: 已验收
 ---
 
 RAII 是什么思想？它如何通过对象的生命周期与作用范围管理资源，并在异常发生时避免资源泄漏？

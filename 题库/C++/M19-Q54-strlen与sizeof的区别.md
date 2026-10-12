@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [54]
 source_pages: [44,45]
 knowledge: 面经19-16-零拷贝与大小计算
-status: 待用户验收
+status: 已验收
 ---
 
 strlen 和 sizeof 在含义、参数、返回类型和计算时机上有什么区别？它们分别适合测量什么？

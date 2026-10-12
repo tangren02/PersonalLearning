@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [44]
 source_pages: [37]
 knowledge: 面经19-14-编译链接与函数调用
-status: 待用户验收
+status: 已验收
 ---
 
 extern "C" 在 C 与 C++ 混合编程中有什么作用？从名称修饰、链接兼容性、代码重用、接口、符号冲突和调用 C 库六方面说明。

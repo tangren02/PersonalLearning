@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [61]
 source_pages: [49]
 knowledge: 面经19-16-零拷贝与大小计算
-status: 待用户验收
+status: 已验收
 ---
 
 memcpy 和 strcpy 分别用于拷贝什么？它们如何确定拷贝长度，各适合哪类数据？

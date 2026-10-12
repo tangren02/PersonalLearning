@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [22]
 source_pages: [20]
 knowledge: 面经19-09-动态内存与RAII
-status: 待用户验收
+status: 已验收
 ---
 
 new 和 malloc 从哪里分配内存？比较初始化、返回类型和失败处理，并列出减少内存碎片的策略。
