@@ -5,7 +5,7 @@ source_id: M19
 source_questions: [17]
 source_pages: [15,16]
 knowledge: 面经19-06-智能指针与并发
-status: 待用户验收
+status: 已验收
 ---
 
 shared_ptr 与 weak_ptr 有什么区别和联系？从所有权、引用计数、生命周期控制及循环引用四方面比较，并说明 weak_ptr 的用途。
@@ -17,7 +17,19 @@ shared_ptr 与 weak_ptr 有什么区别和联系？从所有权、引用计数�
 | 生命周期 | 控制对象的生命周期 | 不控制对象的生命周期 |
 | 循环引用 | 可能形成循环引用并导致内存泄漏 | 可用于打破循环引用 |
 `weak_ptr` 是对 `shared_ptr` 所管理对象的弱引用，用于需要引用对象、但不拥有对象或延长其生命周期的场景。
-辅助说明：两个对象若通过 `shared_ptr` 相互持有，彼此的引用可能阻止释放；使用不增加引用计数的 `weak_ptr` 可打破这种循环引用。
+循环引用辅助片段：
+```cpp
+class Node {
+public:
+    std::shared_ptr<Node> next;
+};
+auto node1 = std::make_shared<Node>();
+auto node2 = std::make_shared<Node>();
+node1->next = node2;
+node2->next = node1;
+```
+两个节点通过各自的 `next` 相互持有对方的 `shared_ptr`，形成循环引用，可能阻止对象释放。
+<!--SR:!2026-10-11,0,230-->
 
 来源：[[基础面经19_上.pdf#page=15]] · 原题 Q17 · PDF 第15、16页；知识：[[面经19-06-智能指针与并发]]。
 

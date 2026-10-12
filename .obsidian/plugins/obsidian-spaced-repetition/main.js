@@ -36663,7 +36663,8 @@ var DataManager = class {
     this._syncLock = true;
     try {
       this.osrCore.loadInitialStateOfCore();
-      const notes = this.plugin.app.vault.getMarkdownFiles();
+      // Keep sequential card review in note filename order.
+      const notes = this.plugin.app.vault.getMarkdownFiles().sort((a2, b2) => a2.path.localeCompare(b2.path));
       for (const noteFile of notes) {
         if (SettingsUtil.isPathInFoldersToIgnore(
           this.settingsManager.settings,

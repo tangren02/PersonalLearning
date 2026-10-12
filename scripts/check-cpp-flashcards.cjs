@@ -28,10 +28,21 @@ vm.runInContext([
 const { parse, handlers } = context.cardParser;
 const directory = path.join(root, '题库/C++');
 const files = fs.readdirSync(directory).filter(name => /^M19-.*\.md$/.test(name)).sort();
-// This particular batch is the first twenty original questions, not a global
-// requirement that every future source/batch must contain exactly twenty.
-const firstBatchPages = [[1,2,3],[3,4],[4,5],[5,6],[6,7],[7],[7,8],[8,9],[9,10],[10,11],[11,12],[12],[13],[13,14],[14],[14,15],[15,16],[16,17],[18],[18,19]];
-assert.equal(files.length, firstBatchPages.length, 'Initial batch must have exactly one card per original question');
+// Fixed source ranges for chapter one. Q25.1 is an independently numbered
+// original question, with its own card; later chapters are outside this batch.
+const numberedPages = [
+  [1,2,3],[3,4],[4,5],[5,6],[6,7],[7],[7,8],[8,9],[9,10],[10,11],
+  [11,12],[12],[13],[13,14],[14],[14,15],[15,16],[16,17],[18],[18,19],
+  [19,20],[20],[20,21],[21,22],[22,23,24],[25],[25,26],[26],[26,27],[27,28],
+  [28],[28,29],[29],[29],[29,30],[30,31],[31],[31,32],[32,33],[33,34],
+  [34,35],[35,36],[36,37],[37],[38],[38],[38,39],[39,40],[40,41],[41],
+  [41,42,43],[43],[43,44],[44,45],[45],[45,46],[46,47],[47],[47,48],[48,49],
+  [49],[49],
+];
+const chapterPages = new Map(numberedPages.map((pages, index) => [index + 1, pages]));
+chapterPages.set(25.1, [24]);
+const expectedQuestions = [...chapterPages.keys()].sort((a, b) => a - b);
+assert.equal(files.length, chapterPages.size, 'Chapter one must have exactly one card per original question');
 const covered = new Set();
 const indexText = fs.readFileSync(path.join(root, '来源/基础面经19-原题索引.md'), 'utf8');
 const seenPairs = new Set();
@@ -64,20 +75,27 @@ for (const file of files) {
   assert.ok(Array.isArray(questions) && questions.length && Array.isArray(pages) && pages.length);
   assert.equal(questions.length, 1, `${file}: a card must belong to exactly one original question`);
   assert.ok(file.startsWith(`M19-Q${String(questions[0]).padStart(2, '0')}-`), `${file}: filename must match original question number`);
-  assert.deepEqual(pages, firstBatchPages[questions[0] - 1], `${file}: incomplete original question page range`);
+  assert.deepEqual(pages, chapterPages.get(questions[0]), `${file}: incomplete original question page range`);
   assert.equal(new Set(pages).size, pages.length, `${file}: duplicate page`);
   const allowedPages = new Set();
   for (const question of questions) {
-    assert.ok(Number.isInteger(question) && question >= 1 && question <= 20, `${file}: outside initial Q1-Q20 batch`);
-    firstBatchPages[question - 1].forEach(page => allowedPages.add(page));
+    assert.ok(chapterPages.has(question), `${file}: outside chapter one Q1-Q62 and Q25.1`);
+    chapterPages.get(question).forEach(page => allowedPages.add(page));
     assert.ok(!covered.has(question), `${file}: Q${question} is split across multiple cards`);
     covered.add(question);
-    const row = indexText.split('\n').find(line => line.startsWith(`| Q${question} |`));
+    const rows = indexText.split('\n').filter(line => line.startsWith(`| Q${question} |`));
+    assert.equal(rows.length, 1, `${file}: expected one index row for Q${question}`);
+    const row = rows[0];
     assert.ok(row && row.includes(`[[${file.slice(0, -3)}]]`), `${file}: missing index mapping Q${question}`);
     assert.deepEqual([...row.matchAll(/\[\[(M19-[^\]]+)\]\]/g)].map(match => match[1]), [file.slice(0, -3)], `${file}: index must map each original question to exactly one card`);
+    const indexPages = row.match(/#page=(\d+)\\\|([\d、]+)\]\]/);
+    assert.ok(indexPages, `${file}: missing index page range`);
+    assert.equal(Number(indexPages[1]), pages[0], `${file}: wrong index PDF anchor`);
+    assert.deepEqual(indexPages[2].split('、').map(Number), pages, `${file}: wrong index page range`);
+    assert.ok(row.includes(`[[${fields.knowledge}]]`), `${file}: index knowledge mapping differs`);
   }
   for (const page of pages) assert.ok(Number.isInteger(page) && allowedPages.has(page), `${file}: page not in original question ranges`);
-  for (const question of questions) assert.ok(firstBatchPages[question - 1].some(page => pages.includes(page)), `${file}: no page for Q${question}`);
+  for (const question of questions) assert.ok(chapterPages.get(question).some(page => pages.includes(page)), `${file}: no page for Q${question}`);
   const knowledgePath = path.join(root, '知识/C++', `${fields.knowledge}.md`);
   assert.ok(fs.existsSync(knowledgePath), `${file}: missing knowledge note`);
   const knowledgeText = fs.readFileSync(knowledgePath, 'utf8');
@@ -103,7 +121,9 @@ for (const file of files) {
     failures.push(`${file}: ${error.message.split('\n')[0]}`);
   }
 }
-assert.deepEqual([...covered].sort((a, b) => a - b), Array.from({length: 20}, (_, i) => i + 1), 'Initial original Q1-Q20 coverage');
+assert.deepEqual([...covered].sort((a, b) => a - b), expectedQuestions, 'Complete chapter one original question coverage');
+const indexQuestions = [...indexText.matchAll(/^\| Q([\d.]+) \|/gm)].map(match => Number(match[1])).sort((a, b) => a - b);
+assert.deepEqual(indexQuestions, expectedQuestions, 'Index must cover exactly chapter one Q1-Q62 and Q25.1');
 
 // Resolve all local wikilinks in authored notes and onboarding against the vault.
 function walk(directory) {
@@ -146,5 +166,5 @@ if (failures.length || count !== files.length) {
   process.exitCode = 1;
 } else {
   console.log(`PASS: exactly ${count} cards from ${files.length} files; all full questions/answers match the actual plugin parser`);
-  console.log(`PASS: M19 Q1-Q20 one-to-one mapping, provenance, backlinks, ${links} local links, and old-content cleanup`);
+  console.log(`PASS: M19 chapter one Q1-Q62 and Q25.1 one-to-one mapping, provenance, backlinks, ${links} local links, and old-content cleanup`);
 }
